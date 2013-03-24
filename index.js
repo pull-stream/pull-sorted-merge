@@ -1,5 +1,11 @@
 
 
+//DANGER! BUG!
+//if two streams have the same key,
+//one must deterministically overwrite the other
+//each stream probably represents an SST,
+//so left most wins, or something.
+
 //merge streams in order
 var pull = require('pull-stream')
 var nextTick = process.nextTick
