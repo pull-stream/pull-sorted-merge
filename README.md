@@ -2,6 +2,10 @@
 
 merge a series of pull-streams into one pull-stream.
 
+[![build status](https://secure.travis-ci.org/dominictarr/pull-stream-merge.png)](http://travis-ci.org/dominictarr/pull-stream-merge)
+
+[![testling badge](https://ci.testling.com/dominictarr/pull-stream-merge.png)](https://ci.testling.com/dominictarr/pull-stream-merge)
+
 ``` js
 var merge = require('pull-stream-merge')
 var pull  = require('pull-stream')
