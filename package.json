@@ -1,7 +1,7 @@
 {
   "name": "pull-stream-merge",
   "description": "merge pull streams",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/dominictarr/pull-stream-merge",
   "repository": {
     "type": "git",
