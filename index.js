@@ -7,13 +7,17 @@
 //so left most wins, or something.
 
 //merge streams in order
-var pull = require('pull-stream')
-var nextTick = process.nextTick
+var pushable = require('pull-pushable')
+var tick = (
+  'undefined' === typeof setImmediate
+    ? process.nextTick 
+    : setImmediate
+  )
 
 module.exports = function (strms, sort) {
   var queue = [], ended = [], next = [], ready = true, ended = false
 
-  var output = pull.pushable()
+  var output = pushable()
 
   //setup buffers for each stream
   for(var i = 0; i < strms.length; i++) {
@@ -41,7 +45,7 @@ module.exports = function (strms, sort) {
     next[i](null, function (end, data) {
       if(end) queue [i] = true
       else    queue[i].push(data)
-      nextTick(drain)
+      tick(drain)
     })
   }
 
@@ -54,7 +58,7 @@ module.exports = function (strms, sort) {
       output.push(queue[j].shift(), function (err) {
         if(err) //abandon all the streams.
           throw err //TEMPORARY
-        ready = true; nextTick(drain)
+        ready = true; tick(drain)
       })
       getNext(j)
     }
