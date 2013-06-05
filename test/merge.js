@@ -4,7 +4,6 @@ var test  = require('tape')
 
 var w = 5, l = 20, as = []
 
-
 function forwards (a, b) {
   return a === b ? 0 : a < b ? -1 : 1
 }
