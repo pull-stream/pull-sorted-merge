@@ -10,7 +10,7 @@ function forwards (a, b) {
 }
 
 function reverse (a, b) {
-  return forwards(b, a) * -1
+  return forwards(a, b) * -1
 }
 
 while(w--) {
@@ -31,7 +31,6 @@ test('merge random streams', function (t) {
     }), forwards)
     .pipe(pull.collect(function (err, actual) {
         t.notOk(err)
-//        console.log(actual)
         var expected = as.reduce(function (a, b) {
           return a.concat(b)
         }).sort()
@@ -46,19 +45,18 @@ test('merge random streams', function (t) {
 
 test('merge random streams reverse', function (t) {
 
-  as.map(function (e) {
+  var as2 = as.map(function (e) {
     return e.slice().reverse()
   })
 
-  merge(as.map(function (a) {
+  merge(as2.map(function (a) {
       return pull.values(a)
     }), reverse)
     .pipe(pull.collect(function (err, actual) {
         t.notOk(err)
-        console.log(actual)
-        var expected = as.reduce(function (a, b) {
+        var expected = as2.reduce(function (a, b) {
           return a.concat(b)
-        }).sort(reverse)
+        }).sort().reverse()
 
         t.deepEqual(actual, expected)
         t.end()
