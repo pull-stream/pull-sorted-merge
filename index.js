@@ -21,6 +21,11 @@ module.exports = function (strms, sort) {
 
   var output = pushable()
 
+  if(!strms.length) {
+    output.end()
+    return output
+  }
+
   //setup buffers for each stream
   for(var i = 0; i < strms.length; i++) {
     next[i] = strms[i]
