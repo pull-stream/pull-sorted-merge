@@ -6,6 +6,8 @@
 //each stream probably represents an SST,
 //so left most wins, or something.
 
+//actuall, I may want to order some streams
+
 //merge streams in order
 var pushable = require('pull-pushable')
 var tick = (
@@ -26,12 +28,11 @@ module.exports = function (strms, sort) {
   }
 
   function min () {
-    var l = strms.length, min = Infinity, j
-   
+    var l = strms.length, min = null, j
     for(var i = 0; i < strms.length; i++) {
       if(queue[i] !== true) {
         if(!queue[i].length) return null
-        if(min > queue[i][0]) {
+        if(null === min || sort(queue[i][0], min) < 0) {
           min = queue[i][0]
           j = i
         }
@@ -51,6 +52,9 @@ module.exports = function (strms, sort) {
 
   function drain () {
     if(!ready || ended) return
+
+    //todo: option to pull from multiple streams at once,
+    //if two streams have an equally sorting value.
 
     var j = min()
     if(j != null) {
