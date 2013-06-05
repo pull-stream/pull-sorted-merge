@@ -1,39 +1,37 @@
-
 var merge = require('../')
 var pull  = require('pull-stream')
 var test  = require('tape')
 
-test('merge random streams', function (t) {
 var w = 5, l = 20, as = []
+
+
+function forwards (a, b) {
+  return a === b ? 0 : a < b ? -1 : 1
+}
+
+function reverse (a, b) {
+  return forwards(b, a) * -1
+}
 
 while(w--) {
   as[w] = []
   var m = l
   while(m--)
     as[w].push(Math.round(Math.random() * 1000)/ 1000)
-  as[w].sort()
+  as[w].sort(forwards)
 }
 
-var i = 0
+process.on('uncaughException', console.error)
 
-var actual = []
+test('merge random streams', function (t) {
 
-merge(as.map(function (a) {
-    return pull.readArray(a)
-  }), function (a, b) {
-    return a - b
-  })
-  .pipe(function(read) {
 
-    read(null, function next (end, data) {
-      console.log('*', data, i++, end)
-
-      if(data != null) {
-        actual.push(data)
-        read(null, next)
-      }
-
-      if(end) {
+  merge(as.map(function (a) {
+      return pull.values(a)
+    }), forwards)
+    .pipe(pull.collect(function (err, actual) {
+        t.notOk(err)
+//        console.log(actual)
         var expected = as.reduce(function (a, b) {
           return a.concat(b)
         }).sort()
@@ -41,8 +39,31 @@ merge(as.map(function (a) {
         t.deepEqual(actual, expected)
         t.end()
         console.log('passed!')
-      }
-    })
-  })
+    }))
 
 })
+
+
+test('merge random streams reverse', function (t) {
+
+  as.map(function (e) {
+    return e.slice().reverse()
+  })
+
+  merge(as.map(function (a) {
+      return pull.values(a)
+    }), reverse)
+    .pipe(pull.collect(function (err, actual) {
+        t.notOk(err)
+        console.log(actual)
+        var expected = as.reduce(function (a, b) {
+          return a.concat(b)
+        }).sort(reverse)
+
+        t.deepEqual(actual, expected)
+        t.end()
+        console.log('passed!')
+    }))
+
+})
+
