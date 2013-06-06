@@ -1,4 +1,4 @@
-# pull-stream-merge
+# pull-sorted-merge
 
 merge a series of pull-streams into one pull-stream.
 

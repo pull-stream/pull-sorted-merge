@@ -1,14 +1,14 @@
 {
-  "name": "pull-stream-merge",
+  "name": "pull-sorted-merge",
   "description": "merge pull streams",
   "version": "1.0.4",
-  "homepage": "https://github.com/dominictarr/pull-stream-merge",
+  "homepage": "https://github.com/dominictarr/pull-sorted-merge",
   "repository": {
     "type": "git",
-    "url": "git://github.com/dominictarr/pull-stream-merge.git"
+    "url": "git://github.com/dominictarr/pull-sorted-merge.git"
   },
   "dependencies": {
-    "pull-pushable": "~1.1.0"
+    "pull-pushable": "~1.1.2"
   },
   "devDependencies": {
     "tape": "~1.0.2",
