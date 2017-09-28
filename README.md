@@ -7,7 +7,7 @@ merge a series of pull-streams into one pull-stream.
 [![testling badge](https://ci.testling.com/dominictarr/pull-stream-merge.png)](https://ci.testling.com/dominictarr/pull-stream-merge)
 
 ``` js
-var merge = require('pull-stream-merge')
+var merge = require('pull-sorted-merge')
 var pull  = require('pull-stream')
 
 merge([stream1, stream2, stream3], sort)
